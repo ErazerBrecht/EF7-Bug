@@ -11,14 +11,15 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace EF7.MigrationBug.Migrations
 {
     [DbContext(typeof(DbCtx))]
-    [Migration("20221231100635_Init")]
+    [Migration("20221231100842_Init")]
     partial class Init
     {
+        /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "6.0.12")
+                .HasAnnotation("ProductVersion", "7.0.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
@@ -44,6 +45,8 @@ namespace EF7.MigrationBug.Migrations
                     b.ToTable("ActivityEventDocuments");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("ActivityEventDocument");
+
+                    b.UseTphMappingStrategy();
                 });
 
             modelBuilder.Entity("EF7.MigrationBug.Models.ActivityProgramEventDocument", b =>
@@ -107,16 +110,25 @@ namespace EF7.MigrationBug.Migrations
                     b.HasBaseType("EF7.MigrationBug.Models.ActivitySubmissionEventDocument");
 
                     b.Property<Guid>("IntegrationId")
-                        .HasColumnType("uuid")
-                        .HasColumnName("ActivitySubmissionIntegrationEventDocument_IntegrationId");
+                        .HasColumnType("uuid");
 
                     b.Property<string>("IntegrationName")
-                        .HasColumnType("text")
-                        .HasColumnName("ActivitySubmissionIntegrationEventDocument_IntegrationName");
+                        .HasColumnType("text");
 
                     b.Property<int>("IntegrationType")
-                        .HasColumnType("integer")
-                        .HasColumnName("ActivitySubmissionIntegrationEventDocument_IntegrationType");
+                        .HasColumnType("integer");
+
+                    b.ToTable(t =>
+                        {
+                            t.Property("IntegrationId")
+                                .HasColumnName("ActivitySubmissionIntegrationEventDocument_IntegrationId");
+
+                            t.Property("IntegrationName")
+                                .HasColumnName("ActivitySubmissionIntegrationEventDocument_IntegrationName");
+
+                            t.Property("IntegrationType")
+                                .HasColumnName("ActivitySubmissionIntegrationEventDocument_IntegrationType");
+                        });
 
                     b.HasDiscriminator().HasValue("ActivitySubmissionIntegrationEventDocument");
                 });
@@ -125,12 +137,36 @@ namespace EF7.MigrationBug.Migrations
                 {
                     b.HasBaseType("EF7.MigrationBug.Models.ActivitySubmissionIntegrationEventDocument");
 
+                    b.ToTable(t =>
+                        {
+                            t.Property("IntegrationId")
+                                .HasColumnName("ActivitySubmissionIntegrationEventDocument_IntegrationId");
+
+                            t.Property("IntegrationName")
+                                .HasColumnName("ActivitySubmissionIntegrationEventDocument_IntegrationName");
+
+                            t.Property("IntegrationType")
+                                .HasColumnName("ActivitySubmissionIntegrationEventDocument_IntegrationType");
+                        });
+
                     b.HasDiscriminator().HasValue("ActivitySubmissionIntegrationCreatedEventDocument");
                 });
 
             modelBuilder.Entity("EF7.MigrationBug.Models.ActivitySubmissionIntegrationDeletedEventDocument", b =>
                 {
                     b.HasBaseType("EF7.MigrationBug.Models.ActivitySubmissionIntegrationEventDocument");
+
+                    b.ToTable(t =>
+                        {
+                            t.Property("IntegrationId")
+                                .HasColumnName("ActivitySubmissionIntegrationEventDocument_IntegrationId");
+
+                            t.Property("IntegrationName")
+                                .HasColumnName("ActivitySubmissionIntegrationEventDocument_IntegrationName");
+
+                            t.Property("IntegrationType")
+                                .HasColumnName("ActivitySubmissionIntegrationEventDocument_IntegrationType");
+                        });
 
                     b.HasDiscriminator().HasValue("ActivitySubmissionIntegrationDeletedEventDocument");
                 });
