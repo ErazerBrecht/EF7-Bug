@@ -5,8 +5,10 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace EF7.MigrationBug.Migrations
 {
+    /// <inheritdoc />
     public partial class Init : Migration
     {
+        /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -24,9 +26,9 @@ namespace EF7.MigrationBug.Migrations
                     Status = table.Column<int>(type: "integer", nullable: true),
                     SubmissionCode = table.Column<string>(type: "text", nullable: true),
                     SubmissionTitle = table.Column<string>(type: "text", nullable: true),
-                    ActivitySubmissionIntegrationEventDocument_IntegrationId = table.Column<Guid>(type: "uuid", nullable: true),
-                    ActivitySubmissionIntegrationEventDocument_IntegrationName = table.Column<string>(type: "text", nullable: true),
-                    ActivitySubmissionIntegrationEventDocument_IntegrationType = table.Column<int>(type: "integer", nullable: true)
+                    ActivitySubmissionIntegrationEventDocumentIntegrationId = table.Column<Guid>(name: "ActivitySubmissionIntegrationEventDocument_IntegrationId", type: "uuid", nullable: true),
+                    ActivitySubmissionIntegrationEventDocumentIntegrationName = table.Column<string>(name: "ActivitySubmissionIntegrationEventDocument_IntegrationName", type: "text", nullable: true),
+                    ActivitySubmissionIntegrationEventDocumentIntegrationType = table.Column<int>(name: "ActivitySubmissionIntegrationEventDocument_IntegrationType", type: "integer", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -34,6 +36,7 @@ namespace EF7.MigrationBug.Migrations
                 });
         }
 
+        /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
